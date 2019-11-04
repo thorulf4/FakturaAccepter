@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FakturaAccepter.Pages.Admin
+namespace FakturaAccepter.Pages.Manager
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Manager,Admin")]
     public class IndexModel : PageModel
     {
         private ApplicationDbContext applicationContext;
@@ -39,12 +39,6 @@ namespace FakturaAccepter.Pages.Admin
             InviteLink link = (InviteLink) await applicationContext.FindAsync(typeof(InviteLink) ,new object[] { id });
             applicationContext.InviteLinks.Remove(link);
             await applicationContext.SaveChangesAsync();
-            return RedirectToAction("");
-        }
-
-        public async Task<IActionResult> OnGetCreateManagerLink()
-        {
-            await inviteManager.CreateNewInviteLink("Manager");
             return RedirectToAction("");
         }
 

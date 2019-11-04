@@ -19,9 +19,9 @@ namespace FakturaAccepter.Service
 
         public void CheckForInitialUser()
         {
-            if (userManager.FindByNameAsync("Admin").GetAwaiter().GetResult() == null)
+            if (userManager.FindByNameAsync("thorulf@live.dk").GetAwaiter().GetResult() == null)
             {
-                var user = new IdentityUser() { UserName = "Admin", Email = "thorulf@live.dk" };
+                var user = new IdentityUser() { UserName = "thorulf@live.dk", Email = "thorulf@live.dk" };
                 user.EmailConfirmed = true;
                 userManager.CreateAsync(user, "Admin123!").GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();

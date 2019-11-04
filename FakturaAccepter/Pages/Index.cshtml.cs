@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using FakturaAccepter.Data;
 using FakturaAccepter.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace FakturaAccepter.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly FakturaAccepter.Models.FakturaContext context;
@@ -34,8 +37,12 @@ namespace FakturaAccepter.Pages
             return File(file, "application/pdf");
         }
 
+
         public IActionResult OnGetAccept(int id)
         {
+            if (!User.IsInRole("Manager"))
+                return Page();
+
             Faktura = context.Faktura.ToList();
             ChangeFakturaState(id, FakturaState.Accepted);
 
@@ -44,6 +51,9 @@ namespace FakturaAccepter.Pages
 
         public IActionResult OnGetDeny(int id)
         {
+            if (!User.IsInRole("Manager"))
+                return Page();
+
             Faktura = context.Faktura.ToList();
             ChangeFakturaState(id, FakturaState.Denied);
 
